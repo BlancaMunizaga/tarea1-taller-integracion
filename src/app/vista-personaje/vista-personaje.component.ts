@@ -28,7 +28,7 @@ export class VistaPersonajeComponent implements OnInit {
   }
 
   getCharacter(): void {
-    this.apiService.findCharcterByCompleteName({ name: this.characterName }).then((result) => {
+    this.apiService.findCharcterByCompleteName({ author: this.characterName }).then((result) => {
       this.character = result[0];
       if (!Array.isArray(result[0].category)) {
         this.character.category = [result[0].category];
