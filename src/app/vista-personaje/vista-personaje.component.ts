@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { ApiServiceService } from '../api/api-service.service';
 
 @Component({
   selector: 'app-vista-personaje',
@@ -6,10 +8,34 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./vista-personaje.component.css']
 })
 export class VistaPersonajeComponent implements OnInit {
+  public character: any = [];
+  public characterName: any = null;
+  public loading = true;
+  public errorMessage: any = null;
 
-  constructor() { }
+  constructor(
+    private apiService: ApiServiceService,
+    private activatedRoute: ActivatedRoute
+  ) { }
 
   ngOnInit(): void {
+    const { name } = this.activatedRoute.snapshot.params;
+    this.characterName = name;
+    this.getCharacter();
+  }
+
+  getCharacter(): void {
+    this.apiService.findCharcterByCompleteName({ name: this.characterName }).then((result) => {
+      this.character = result[0];
+      if (!Array.isArray(result[0].category)) {
+        this.character.category = [result[0].category];
+      }
+      console.log(this.character);
+      this.loading = false;
+    }).catch((err) => {
+      console.log(err);
+      this.errorMessage = 'Unexpected error.';
+    });
   }
 
 }

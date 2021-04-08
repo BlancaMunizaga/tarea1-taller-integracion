@@ -22,4 +22,14 @@ export class ApiServiceService {
     const request: any = await this.http.get(`${this.BASE_PATH}episodes/${id}`).toPromise();
     return request;
   }
+
+  async findCharcterByCompleteName(search: any): Promise<any> {
+    const request: any = await this.http.get(`${this.BASE_PATH}characters`, { params: search }).toPromise();
+    return request;
+  }
+
+  async findQuoteByCompleteName(search: any): Promise<any> {
+    const request: any = await this.http.get(`${this.BASE_PATH}quote`, { params: search }).toPromise();
+    return request;
+  }
 }

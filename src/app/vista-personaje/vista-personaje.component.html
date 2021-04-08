@@ -1,1 +1,47 @@
-<p>vista-personaje works!</p>
+<div>
+  <div style="margin: 50px;">
+    <div *ngIf="!loading">
+      <h1>Personaje</h1>
+      <h2 class="title">{{character.name}}</h2>
+      <h3 class="title">Alias: {{character.nickname}}</h3>
+      <img class="images" src={{character.img}} style="height: 200px; width: 160px;" />
+      <h3 class="title">Actor: {{character.portrayed}}</h3>
+      <h3>Ocupaciones</h3>
+      <ul>
+        <ng-container *ngFor="let ocupation of character.occupation">
+          <li>{{ocupation}}</li>
+        </ng-container>
+      </ul>
+      <h3>Estado: {{character.status}}</h3>
+      <h3>Series:</h3>
+      <ng-container *ngFor="let category of character.category">
+        <li>{{category}}</li>
+        <div *ngIf="category === 'Breaking Bad'">
+          <ng-container *ngFor="let temp of character.appearance">
+            <div>
+              <a [routerLink]="[ '/temporada/Breaking+Bad/' + temp]">Temporada {{temp}}</a>
+            </div>
+          </ng-container>
+        </div>
+        <div *ngIf="category === 'Better Call Saul'">
+          <ng-container *ngFor="let temp of character.better_call_saul_appearance">
+            <div>
+              <a [routerLink]="[ '/temporada/Better+Call+Saul/' + temp]">Temporada {{temp}}</a>
+            </div>
+          </ng-container>
+        </div>
+
+      </ng-container>
+      <!-- <ng-container *ngFor="let character of episode.characters">
+        <div>
+          <a [routerLink]="[ '/character/' + character]">{{character}}</a>
+        </div>
+      </ng-container> -->
+
+    </div>
+  </div>
+  <div style="margin: 50px;" *ngIf="loading">
+    <h2> Cargando... </h2>
+    <p style="color: red;" *ngIf="errorMessage"> {{ errorMessage }}</p>
+  </div>
+</div>
