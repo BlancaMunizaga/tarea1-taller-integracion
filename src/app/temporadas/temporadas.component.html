@@ -1,0 +1,24 @@
+<div>
+  <div style="margin: 50px;">
+    <div *ngIf="!loadingBb">
+      <h1 class="title">Breaking Bad</h1>
+      <ng-container *ngFor="let temp of bbTemporadas">
+        <div>
+          <a [routerLink]="[ '/temporada/Breaking+Bad/' + temp]">Temporada {{temp}}</a>
+        </div>
+      </ng-container>
+    </div>
+    <div *ngIf="!loadingBcs">
+      <h1 class="title">Better Call Saul</h1>
+      <ng-container *ngFor="let temp of bcsTemporadas">
+        <div>
+          <a [routerLink]="[ '/temporada/Better+Call+Saul/' + temp]">Temporada {{temp}}</a>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+  <div style="margin: 50px;" *ngIf="loadingBcs && loadingBb">
+    <h1> Cargando... </h1>
+    <p style="color: red;" *ngIf="errorMessage"> {{ errorMessage }}</p>
+  </div>
+</div>

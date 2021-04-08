@@ -1,0 +1,20 @@
+<div>
+  <div style="margin: 50px;">
+    <div *ngIf="!loading">
+      <h1 class="title">{{episode.series}}</h1>
+      <h2>Temporada {{episode.season}}</h2>
+      <h3>Episodio {{episode.episode}}: {{episode.title}}</h3>
+      <p>Fecha lanzamiento {{episode.air_date | date:'longDate'}}</p>
+      <h3>Personajes</h3>
+      <ng-container *ngFor="let character of episode.characters">
+        <div>
+          <a [routerLink]="[ '/character/' + character]">{{character}}</a>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+  <div style="margin: 50px;" *ngIf="loading">
+    <h2> Cargando... </h2>
+    <p style="color: red;" *ngIf="errorMessage"> {{ errorMessage }}</p>
+  </div>
+</div>
