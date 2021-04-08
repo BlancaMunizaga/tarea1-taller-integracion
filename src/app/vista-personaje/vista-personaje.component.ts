@@ -10,7 +10,9 @@ import { ApiServiceService } from '../api/api-service.service';
 export class VistaPersonajeComponent implements OnInit {
   public character: any = [];
   public characterName: any = null;
+  public quotes: any = [];
   public loading = true;
+  public loadingQuotes = true;
   public errorMessage: any = null;
 
   constructor(
@@ -22,6 +24,7 @@ export class VistaPersonajeComponent implements OnInit {
     const { name } = this.activatedRoute.snapshot.params;
     this.characterName = name;
     this.getCharacter();
+    this.getQuotes();
   }
 
   getCharacter(): void {
@@ -30,8 +33,17 @@ export class VistaPersonajeComponent implements OnInit {
       if (!Array.isArray(result[0].category)) {
         this.character.category = [result[0].category];
       }
-      console.log(this.character);
       this.loading = false;
+    }).catch((err) => {
+      console.log(err);
+      this.errorMessage = 'Unexpected error.';
+    });
+  }
+
+  getQuotes(): void {
+    this.apiService.findQuoteByCompleteName({ name: this.characterName }).then((result) => {
+      this.quotes = result;
+      this.loadingQuotes = false;
     }).catch((err) => {
       console.log(err);
       this.errorMessage = 'Unexpected error.';

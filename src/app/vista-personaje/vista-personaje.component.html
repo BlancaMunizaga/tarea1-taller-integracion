@@ -30,14 +30,15 @@
             </div>
           </ng-container>
         </div>
-
       </ng-container>
-      <!-- <ng-container *ngFor="let character of episode.characters">
-        <div>
-          <a [routerLink]="[ '/character/' + character]">{{character}}</a>
-        </div>
-      </ng-container> -->
-
+      <h3>Frases:</h3>
+      <div *ngIf="loadingQuotes">
+        <ng-container *ngFor="let quo of quotes">
+          <div>
+            <li>{{quo.quote}} ({{quo.series}}).</li>
+          </div>
+        </ng-container>
+      </div>
     </div>
   </div>
   <div style="margin: 50px;" *ngIf="loading">
