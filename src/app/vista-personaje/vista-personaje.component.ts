@@ -15,6 +15,10 @@ export class VistaPersonajeComponent implements OnInit {
   public loading = true;
   public loadingQuotes = true;
   public errorMessage: any = null;
+  public search: any;
+  public loadingCharacters = false;
+  public characters: any = [];
+
 
   constructor(
     private apiService: ApiServiceService,
@@ -32,9 +36,7 @@ export class VistaPersonajeComponent implements OnInit {
   getCharacter(): void {
     this.apiService.findCharcterByCompleteName({ name: this.characterName }).then((result) => {
       this.character = result[0];
-      console.log(result);
       if (!Array.isArray(result[0].category)) {
-        console.log(result[0].category);
         this.character.category = result[0].category.split(',');
       }
       this.loading = false;
@@ -47,7 +49,6 @@ export class VistaPersonajeComponent implements OnInit {
   getQuotes(): void {
     this.apiService.findQuoteByCompleteName({ author: this.characterName }).then((result) => {
       this.quotes = result;
-      console.log(result);
       this.loadingQuotes = false;
     }).catch((err) => {
       console.log(err);
@@ -65,5 +66,33 @@ export class VistaPersonajeComponent implements OnInit {
   back(): void {
     this.location.back();
   }
+
+  async buscar(): Promise<void> {
+    this.loadingCharacters = true;
+    let True = true;
+    let charactersList: any = [];
+    let offSet = 0;
+    while (True) {
+      const result = await this.apiService.findCharcterByCompleteName({ name: this.search, limit: 10, offset: offSet });
+      if (charactersList.length === 0) {
+        charactersList = result;
+      } else {
+        charactersList.concat(result);
+      }
+      if (result.length < 10) {
+        True = false;
+      }
+      offSet += 10;
+    }
+    this.characters = charactersList;
+    this.loadingCharacters = false;
+  }
+
+  recargar(name: string): void {
+    this.characterName = name;
+    this.getCharacter();
+    this.getQuotes();
+  }
+
 
 }

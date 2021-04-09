@@ -15,6 +15,9 @@ export class EpisodiosComponent implements OnInit {
   public temporada = null;
   public loading = true;
   public errorMessage: any = null;
+  public search: any;
+  public loadingCharacters = false;
+  public characters: any = [];
 
   constructor(
     private apiService: ApiServiceService,
@@ -39,6 +42,28 @@ export class EpisodiosComponent implements OnInit {
       this.errorMessage = 'Unexpected error.';
     });
   }
+
+  async buscar(): Promise<void> {
+    this.loadingCharacters = true;
+    let True = true;
+    let charactersList: any = [];
+    let offSet = 0;
+    while (True) {
+      const result = await this.apiService.findCharcterByCompleteName({ name: this.search, limit: 10, offset: offSet });
+      if (charactersList.length === 0) {
+        charactersList = result;
+      } else {
+        charactersList.concat(result);
+      }
+      if (result.length < 10) {
+        True = false;
+      }
+      offSet += 10;
+    }
+    this.characters = charactersList;
+    this.loadingCharacters = false;
+  }
+
 
 
   getSerieTitle(serie: any): void {

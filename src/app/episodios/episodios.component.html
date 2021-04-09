@@ -1,5 +1,21 @@
 <div>
   <div style="margin: 50px;">
+    <form>
+      <div>
+        <label> Buscador: </label><br>
+        <input [(ngModel)]="search" type="text" placeholder="ingrese nombre personaje" name="search">
+        <button (click)="buscar()">Buscar</button>
+        <p *ngIf="loadingCharacters"> Cargando... </p>
+      </div>
+    </form>
+    <div *ngIf="characters.length > 0">
+      <h3>Resultados:</h3>
+      <ng-container *ngFor="let character of characters">
+        <div>
+          <a [routerLink]="[ '/character/' + character.name]">{{character.name}}</a>
+        </div>
+      </ng-container>
+    </div>
     <div *ngIf="!loading">
       <h1 class="title">{{serieTitle}}</h1>
       <h2>Temporada {{temporada}}</h2>

@@ -13,6 +13,9 @@ export class VistaEpisodioComponent implements OnInit {
   public episodeId: any = null;
   public loading = true;
   public errorMessage: any = null;
+  public search: any;
+  public loadingCharacters = false;
+  public characters: any = [];
 
   constructor(
     private apiService: ApiServiceService,
@@ -38,6 +41,27 @@ export class VistaEpisodioComponent implements OnInit {
 
   back(): void {
     this.location.back();
+  }
+
+  async buscar(): Promise<void> {
+    this.loadingCharacters = true;
+    let True = true;
+    let charactersList: any = [];
+    let offSet = 0;
+    while (True) {
+      const result = await this.apiService.findCharcterByCompleteName({ name: this.search, limit: 10, offset: offSet });
+      if (charactersList.length === 0) {
+        charactersList = result;
+      } else {
+        charactersList.concat(result);
+      }
+      if (result.length < 10) {
+        True = false;
+      }
+      offSet += 10;
+    }
+    this.characters = charactersList;
+    this.loadingCharacters = false;
   }
 
 }
