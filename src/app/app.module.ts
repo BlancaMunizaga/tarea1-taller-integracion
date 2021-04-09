@@ -10,6 +10,7 @@ import { VistaEpisodioComponent } from './vista-episodio/vista-episodio.componen
 import localeEs from '@angular/common/locales/es';
 import { registerLocaleData } from '@angular/common';
 import { VistaPersonajeComponent } from './vista-personaje/vista-personaje.component';
+import { FormsModule } from '@angular/forms';
 registerLocaleData(localeEs, 'es');
 
 @NgModule({
@@ -23,7 +24,8 @@ registerLocaleData(localeEs, 'es');
   imports: [
     HttpClientModule,
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule
   ],
   providers: [{ provide: LOCALE_ID, useValue: 'es' }],
   bootstrap: [AppComponent]

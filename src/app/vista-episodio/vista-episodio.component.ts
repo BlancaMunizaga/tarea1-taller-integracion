@@ -1,3 +1,4 @@
+import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ApiServiceService } from '../api/api-service.service';
@@ -15,7 +16,8 @@ export class VistaEpisodioComponent implements OnInit {
 
   constructor(
     private apiService: ApiServiceService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private location: Location
   ) { }
 
   ngOnInit(): void {
@@ -32,6 +34,10 @@ export class VistaEpisodioComponent implements OnInit {
       console.log(err);
       this.errorMessage = 'Unexpected error.';
     });
+  }
+
+  back(): void {
+    this.location.back();
   }
 
 }

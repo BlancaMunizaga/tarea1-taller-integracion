@@ -8,7 +8,6 @@ import { ApiServiceService } from '../api/api-service.service';
 })
 export class TemporadasComponent implements OnInit {
 
-  // public episodes: any = [];
   public bbEpisodes: any = [];
   public bcsEpisodes: any = [];
   public bbTemporadas: any = [];
@@ -17,6 +16,9 @@ export class TemporadasComponent implements OnInit {
   public loadingBb = true;
   public keys: string[] = [];
   public errorMessage: any = null;
+  public search: any;
+  public loadingCharacters = false;
+  public characters: any = [];
 
   constructor(
     private apiService: ApiServiceService
@@ -56,6 +58,27 @@ export class TemporadasComponent implements OnInit {
       list.push(index + 1);
     }
     return list;
+  }
+
+  async buscar(): Promise<void> {
+    this.loadingCharacters = true;
+    let True = true;
+    let charactersList: any = [];
+    let offSet = 0;
+    while (True) {
+      const result = await this.apiService.findCharcterByCompleteName({ name: this.search, limit: 10, offset: offSet });
+      if (charactersList.length === 0) {
+        charactersList = result;
+      } else {
+        charactersList.concat(result);
+      }
+      if (result.length < 10) {
+        True = false;
+      }
+      offSet += 10;
+    }
+    this.characters = charactersList;
+    this.loadingCharacters = false;
   }
 
 }

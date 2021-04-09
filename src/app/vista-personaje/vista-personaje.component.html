@@ -16,33 +16,41 @@
       <h3>Series:</h3>
       <ng-container *ngFor="let category of character.category">
         <li>{{category}}</li>
-        <div *ngIf="category === 'Breaking Bad'">
+        <div *ngIf="getCategory(category, 'Breaking Bad')">
           <ng-container *ngFor="let temp of character.appearance">
             <div>
               <a [routerLink]="[ '/temporada/Breaking+Bad/' + temp]">Temporada {{temp}}</a>
             </div>
           </ng-container>
         </div>
-        <div *ngIf="category === 'Better Call Saul'">
-          <ng-container *ngFor="let temp of character.better_call_saul_appearance">
+        <div *ngIf="getCategory(category,'Better Call Saul')">
+          <ng-container *ngFor="let bcs of character.better_call_saul_appearance">
             <div>
-              <a [routerLink]="[ '/temporada/Better+Call+Saul/' + temp]">Temporada {{temp}}</a>
+              <a [routerLink]="[ '/temporada/Better+Call+Saul/' + bcs]">Temporada {{bcs}}</a>
             </div>
           </ng-container>
         </div>
       </ng-container>
-      <h3>Frases:</h3>
-      <div *ngIf="loadingQuotes">
+      <div *ngIf="!loadingQuotes && quotes.length">
+        <h3>Frases:</h3>
+
         <ng-container *ngFor="let quo of quotes">
           <div>
-            <li>{{quo.quote}} ({{quo.series}}).</li>
+            <p>"{{quo.quote}}" ({{quo.series}}).</p>
           </div>
         </ng-container>
       </div>
+      <div *ngIf="!loadingQuotes && !quotes.length">
+        <h3>No tiene frases aún</h3>
+      </div>
+      <br>
+      <button (click)="back()">Volver</button>
     </div>
   </div>
-  <div style="margin: 50px;" *ngIf="loading">
+  <div style="margin: 50px;" *ngIf="loading || loadingQuotes">
     <h2> Cargando... </h2>
     <p style="color: red;" *ngIf="errorMessage"> {{ errorMessage }}</p>
+    <br>
+    <button (click)="back()">Volver</button>
   </div>
 </div>

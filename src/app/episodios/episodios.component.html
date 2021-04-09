@@ -8,10 +8,15 @@
           <a [routerLink]="[ '/episodio/' + episode.episode_id]">Episodio {{episode.episode}}: {{episode.title}}</a>
         </div>
       </ng-container>
+      <br>
+      <button (click)="back()">Volver</button>
     </div>
   </div>
   <div style="margin: 50px;" *ngIf="loading">
     <h2> Cargando... </h2>
     <p style="color: red;" *ngIf="errorMessage"> {{ errorMessage }}</p>
+    <br>
+    <button (click)="back()">Volver</button>
   </div>
+
 </div>

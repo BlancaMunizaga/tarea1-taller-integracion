@@ -1,3 +1,4 @@
+import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ApiServiceService } from '../api/api-service.service';
@@ -17,7 +18,8 @@ export class EpisodiosComponent implements OnInit {
 
   constructor(
     private apiService: ApiServiceService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private location: Location
   ) { }
 
   ngOnInit(): void {
@@ -25,15 +27,12 @@ export class EpisodiosComponent implements OnInit {
     this.serie = serie;
     this.getSerieTitle(serie);
     this.temporada = temporada;
-    console.log(serie);
-    console.log(temporada);
     this.getEpisodes();
   }
 
   getEpisodes(): void {
-    this.apiService.findEpisodes({ series: this.serie, season: this.temporada }).then((result) => {
+    this.apiService.findEpisodes({ series: this.serie }).then((result) => {
       this.episodes = result.filter((element: any) => element.season === this.temporada);
-      console.log(this.episodes);
       this.loading = false;
     }).catch((err) => {
       console.log(err);
@@ -48,6 +47,10 @@ export class EpisodiosComponent implements OnInit {
     } else if (serie === 'Breaking+Bad') {
       this.serieTitle = 'Breaking Bad';
     }
+  }
+
+  back(): void {
+    this.location.back();
   }
 
 }
